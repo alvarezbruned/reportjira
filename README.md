@@ -1,1 +1,5 @@
 # reportjira
+
+
+xhost +local:docker
+
