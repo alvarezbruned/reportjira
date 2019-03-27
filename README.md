@@ -24,6 +24,7 @@ services:
 
 An example of 'data-work.yaml':
 
+```
 pathImages: '/Users/robert/Documents/images/'
 usernameJira: 'myemailJira'
 passwordJira: 'mypassword'
