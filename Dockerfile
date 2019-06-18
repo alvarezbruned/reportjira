@@ -6,7 +6,7 @@ RUN \
   pyyaml
 
 RUN \
-  apt-get install -y libqt5x11extras5 --no-install-recommends \
+  apt-get install -y libqt5x11extras5 \
   && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /files
