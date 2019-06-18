@@ -1,11 +1,20 @@
-FROM python:3.6
+FROM python:3.6-slim
 
 RUN apt-get update
-RUN pip install requests
-RUN pip install pyyaml
+RUN \
+  pip install requests \
+  pyyaml
 
-RUN pip3 install reportjira
-COPY reportjira-config.conf /usr/local/lib/python3.6/site-packages/reportjira
-RUN apt-get install libqt5x11extras5 -y
+RUN \
+  apt-get install -y libqt5x11extras5 --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT python3 /usr/local/lib/python3.6/site-packages/reportjira
+RUN mkdir -p /files
+COPY requirements.txt /files
+COPY __main__.py /files
+RUN chmod +x /files/__main__.py
+RUN pip3 install -r /files/requirements.txt
+
+COPY reportjira-config.conf /files
+
+ENTRYPOINT python3 /files/__main__.py
