@@ -192,7 +192,6 @@ class ReportJira(QDialog):
         self.basic_buttons_layout.addWidget(self.exitButton, 3, 1)
         self.basic_buttons_layout.addWidget(self.processTiketsButton, 4, 1)
 
-
     def make_buttons(self, data_loaded, layout):
         self.pathImages = data_loaded['pathImages']
         self.pixelsIcon = int(data_loaded['pixelsIcon']) if 'pixelsIcon' in data_loaded else self.pixelsIcon
@@ -267,11 +266,11 @@ class ReportJira(QDialog):
             self.tiket = ''
         return _function
 
-    @staticmethod
-    def set_type_command_only(absolutePath):
+    def set_type_command_only(self, absolutePath):
         def _function():
-            logging.info('execute: ' + absolutePath)
-            cmd = subprocess.call(absolutePath, shell=True)
+            logging.info('execute: ' + absolutePath + ' ' + self.tiketComment.text())
+            cmd = subprocess.call(absolutePath + ' ' + self.tiketComment.text(), shell=True)
+            self.tiketComment.setText('')
         return _function
 
     def set_type_command(self, type, tiket, absolutePath):
@@ -363,7 +362,9 @@ class ReportJira(QDialog):
     def send_worklogs(self, values):
         try:
             valuesSplited = values.split('@||@')
-            if isinstance(valuesSplited, list):
+            if valuesSplited[0] == "CMD ONLY":
+                logging.info('ticketID= ' + valuesSplited[0] + ' no sended')
+            elif isinstance(valuesSplited, list):
                 logging.info('ticketID= ' + valuesSplited[0])
                 logging.info('data to send= ' + valuesSplited[1])
                 headers = {"Accept": "application/json", "Content-Type": "application/json"}
@@ -393,7 +394,10 @@ class ReportJira(QDialog):
         self.jiraMessageInProgress = commentText
         if ticket != '':
             self.labelApp.setText(ticket + ' started')
-        if self.jiraIdFinished != '':
+        if ticket == "CMD ONLY":
+            self.labelApp.setText(ticket + ' started no sended')
+            logging.info('ticketID= ' + ticket + ' no sended')
+        elif self.jiraIdFinished != '':
             self.labelApp.setText(self.jiraIdFinished + ' finished')
             if ticket != '':
                 self.labelApp.setText(self.labelApp.text() + ' - ' + ticket + ' started')
