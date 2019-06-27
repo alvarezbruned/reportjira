@@ -27,7 +27,7 @@ An example of 'data-work.yaml':
 ```
 pathImages: '/Users/robert/Documents/images/'
 usernameJira: 'myemailJira'
-passwordJira: 'mypassword'
+tokenJira: 'mytoken' #(https://id.atlassian.com/manage/api-tokens) 
 domainJira: 'domain.atlassian.net'
 logo: 'logo.png'
 data:

@@ -32,7 +32,7 @@ class ReportJira(QDialog):
     def __init__(self):
         self.pathImages = ''
         self.usernameJira = ''
-        self.passwordJira = ''
+        self.tokenJira = ''
         self.domainJira = ''
         self.logoApp = ''
         self.settings = EasySettings(os.path.abspath(os.path.dirname(__file__)) + '/reportjira-config.conf')
@@ -196,7 +196,7 @@ class ReportJira(QDialog):
         self.pathImages = data_loaded['pathImages']
         self.pixelsIcon = int(data_loaded['pixelsIcon']) if 'pixelsIcon' in data_loaded else self.pixelsIcon
         self.usernameJira = data_loaded['usernameJira'] if 'usernameJira' in data_loaded else ''
-        self.passwordJira = data_loaded['passwordJira'] if 'passwordJira' in data_loaded else ''
+        self.tokenJira = data_loaded['tokenJira'] if 'tokenJira' in data_loaded else ''
         self.domainJira = data_loaded['domainJira'] if 'domainJira' in data_loaded else ''
         self.logoApp = data_loaded['logo'] if 'logo' in data_loaded else None
         if isinstance(self.logoApp, str):
@@ -307,7 +307,7 @@ class ReportJira(QDialog):
         try:
             url = 'https://'+self.domainJira+'/rest/api/2/search?jql=status%20!%3D%20Done%20AND%20assignee%20in%20(' + self.usernameJira.split('@')[0] +')&fields=key,summary'
             headers = {"Accept": "application/json", "Content-Type": "application/json"}
-            req = requests.request('GET', url, headers=headers, auth=(self.usernameJira, self.passwordJira))
+            req = requests.request('GET', url, headers=headers, auth=(self.usernameJira, self.tokenJira))
             dataTiketsJir = json.loads(req.text)
             self.jiraTikets.clear()
             for tiket in range(0, len(dataTiketsJir['issues'])):
@@ -316,7 +316,7 @@ class ReportJira(QDialog):
                 self.jiraTikets.addItem(ticketId + '# ' + titleTicket)
             logging.info('assigned tickets have been loaded')
         except Exception as e:
-             self.popup_info('some wrong in get tickets info')
+             self.popup_info('some wrong in get tickets info' + str(e))
 
     def write_backup_file_worklogs(self, file_name, worklog):
         f = open(self.pathImages + file_name, "a")
@@ -370,7 +370,7 @@ class ReportJira(QDialog):
                 headers = {"Accept": "application/json", "Content-Type": "application/json"}
                 url = 'https://' + self.domainJira + '/rest/api/2/issue/' + valuesSplited[0] + '/worklog'
                 request = requests.request("POST", url, headers=headers, data=valuesSplited[1],
-                                           auth=(self.usernameJira, self.passwordJira))
+                                           auth=(self.usernameJira, self.tokenJira))
                 statuscode = str(request.status_code)
                 logging.info('status code ' + statuscode)
                 if statuscode == '201':
