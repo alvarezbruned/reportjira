@@ -3,10 +3,9 @@
 reportjira is Dockerized reportjira image, 
 
 
-
 xhost +local:docker
 
-aN example of docker-compose:
+An example of docker-compose:
 ```
 version: '2'
 services:
@@ -26,36 +25,45 @@ An example of 'data-work.yaml':
 
 ```
 pathImages: '/Users/robert/Documents/images/'
+pixelsIcon : '60'
 usernameJira: 'myemailJira'
-tokenJira: 'mytoken' #(https://id.atlassian.com/manage/api-tokens) 
+tokenJira: 'mytoken' #(https://id.atlassian.com/manage/api-tokens)
 domainJira: 'domain.atlassian.net'
+pathToLog: '/path/mi.log'
 logo: 'logo.png'
 data:
-- row0:
-- daily:
-- 'TASK-67'
-- 'daily.png'
-- meeting:
-- 'TASK-62'
-- 'team.png'
-- sys_admin:
-- 'SIS-76'
-- 'sysadmin.png'
-- row1:
-- sprint_planning:
-- 'TASK-64'
-- 'sprint_planning_1.png'
-- retro:
-- 'TASK-63'
-- 'retro.png'
-- grooming:
-- 'TASK-68'
-- 'grooming.png'
-- demo:
-- 'TASK-36'
-- 'demo_live_1.png'
-- ButtonNoId:
-- ''
-- 'button.jpg'
-- ButtonNoIdNoImage:
+  - row0:
+    - incidencias:
+      - 'TASK-11006'
+      - 'mierda1.png'
+    - infojobs:
+      - 'TASK-11006'
+      - 'infojolps 1.png'
+    - daily:
+      - 'TASK-43'
+      - 'daily_1.png'
+    - reunion:
+      - 'TASK-46'
+      - 'team.png'
+    - sys_admin:
+      - 'TASK-1173'
+      - 'sysadmin_1.png'
+    - descanso:
+      - ''
+      - 'burger_refresh.png'
+    - bash_start:
+      - 'CMD ONLY'
+      - 'logo-start.png'
+      - 'echo "start" > /files/sem/ACTION && rm /files/sem/stop-sel'
+    - ButtonNoIdNoImage:
+  - row1:
+    - retro:
+      - 'TASK-41'
+      - 'retro_1.png'
+    - grooming:
+      - 'TASK-44'
+      - 'grooming_1.png'
+    - demo:
+      - 'TASK-42'
+      - 'demo_live_1.png'
 ```
