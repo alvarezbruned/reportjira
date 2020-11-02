@@ -4,6 +4,7 @@ reportjira:
   volumes:
     - '/tmp/.X11-unix:/tmp/.X11-unix'
     - '/path/to/file.yaml:/root/file.yaml'
+    - '/path/to/reportjira-config.conf:/root/files/reportjira-config.conf'
     - '/path/to/images/:/root/images/'
   environment:
     - 'DISPLAY=:0'
